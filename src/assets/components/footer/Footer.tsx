@@ -8,6 +8,9 @@ import {
 } from "@phosphor-icons/react";
 
 export function Footer() {
+  // eslint-disable-next-line prefer-const
+  let data = new Date().getFullYear();
+
   return (
     <footer className="bg-white">
       <div className="mx-auto max-w-7xl space-y-8 px-4 py-16 sm:px-6 lg:space-y-16 lg:px-8">
@@ -232,7 +235,7 @@ export function Footer() {
         </div>
 
         <p className="text-xs text-gray-500">
-          © 2022. Company Name. All rights reserved.
+          © {data}. MeLeva Carona. All rights reserved.
         </p>
       </div>
     </footer>
