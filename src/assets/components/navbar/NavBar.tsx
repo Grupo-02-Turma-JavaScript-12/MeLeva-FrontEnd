@@ -42,9 +42,10 @@ export function Navbar() {
           Oferecer carona
         </button>
 
-        <a className="rounded-full hover:bg-amber-50 p-2" href="#">
-          <FaUserCircle className="text-orange-500" size={38} />
-        </a>
+        <Link className="rounded-full hover:bg-amber-50 p-2" to="/login">
+  <FaUserCircle className="text-orange-500" size={38} />
+</Link>
+
       </div>
     </div>
   );
