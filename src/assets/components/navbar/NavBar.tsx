@@ -3,7 +3,7 @@ import { FaUserCircle } from "react-icons/fa";
 import { GoQuestion } from "react-icons/go";
 import { Link } from "react-router-dom";
 
-function Navbar() {
+export function Navbar() {
   return (
     <div className="flex container justify-around mx-auto items-center p-5">
       <img src="/img/logo.png" alt="logo" className="w-35 items-center" />
@@ -49,5 +49,3 @@ function Navbar() {
     </div>
   );
 }
-
-export default Navbar;

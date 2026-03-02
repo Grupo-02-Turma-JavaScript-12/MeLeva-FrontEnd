@@ -1,10 +1,10 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import Footer from "./assets/components/footer/Footer";
-import Home from "./assets/pages/Home";
-import Navbar from "./assets/components/navbar/NavBar";
+import { Footer } from "./assets/components/footer/Footer";
+import { Home } from "./assets/pages/Home";
+import { Navbar } from "./assets/components/navbar/NavBar";
 import CardCarona from "./assets/components/cardcarona/CardCarona";
 
-function App() {
+export function App() {
   return (
     <>
       <BrowserRouter>
@@ -20,5 +20,3 @@ function App() {
     </>
   );
 }
-
-export default App;
