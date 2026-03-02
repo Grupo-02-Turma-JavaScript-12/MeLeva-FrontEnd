@@ -2,6 +2,7 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Footer from "./assets/components/footer/Footer";
 import Home from "./assets/pages/Home";
 import Navbar from "./assets/components/navbar/NavBar";
+import CardCarona from "./assets/components/cardcarona/CardCarona";
 
 function App() {
   return (
@@ -11,6 +12,7 @@ function App() {
         <div className="min-h-[80vh]">
           <Routes>
             <Route path="/" element={<Home />} />
+            <Route path="/cardcarona" element={<CardCarona />} />
           </Routes>
         </div>
         <Footer />
