@@ -40,6 +40,15 @@ export function Navbar() {
         >
           Contato
         </Link>
+
+        {isLogado && (
+          <Link
+            className="font-bold text-orange-500 px-3 py-1 text-center rounded-3xl hover:bg-orange-50"
+            to="/minhas-reservas"
+          >
+            Minhas Reservas
+          </Link>
+        )}
       </div>
 
       <div className="flex justify-between gap-4 items-center">
