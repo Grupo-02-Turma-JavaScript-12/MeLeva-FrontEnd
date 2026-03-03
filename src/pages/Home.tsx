@@ -1,3 +1,4 @@
+import { useEffect, useState } from "react";
 import {
   FaAdjust,
   FaBus,
@@ -9,9 +10,84 @@ import {
 import { FaVanShuttle } from "react-icons/fa6";
 
 export function Home() {
+  const [cidades, setCidades] = useState<string[]>([]);
+  const [origem, setOrigem] = useState("");
+  const [destino, setDestino] = useState("");
+  const [focoOrigem, setFocoOrigem] = useState(false);
+  const [focoDestino, setFocoDestino] = useState(false);
+
+  useEffect(() => {
+    async function buscarCidades() {
+      try {
+        const resposta = await fetch(
+          "https://servicodados.ibge.gov.br/api/v1/localidades/municipios?view=nivelado",
+        );
+        const dados = await resposta.json();
+
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        const cidadesFormatadas = dados.map((m: any) => {
+          return `${m["municipio-nome"]}, ${m["UF-sigla"]}`;
+        });
+
+        const cidadesUnicas = Array.from(new Set(cidadesFormatadas)).sort();
+        setCidades(cidadesUnicas as string[]);
+      } catch (error) {
+        console.error("Erro ao buscar cidades do IBGE:", error);
+        setCidades([
+          "São Paulo, SP",
+          "Rio de Janeiro, RJ",
+          "Belo Horizonte, MG",
+          "Salvador, BA",
+          "Recife, PE",
+          "João Pessoa, PB",
+          "Fortaleza, CE",
+          "Brasília, DF",
+          "Curitiba, PR",
+          "Manaus, AM",
+        ]);
+      }
+    }
+
+    buscarCidades();
+  }, []);
+
+  const filtroOrigem = origem
+    ? cidades
+        .filter((c) =>
+          c
+            .toLowerCase()
+            .normalize("NFD")
+            .replace(/[\u0300-\u036f]/g, "")
+            .includes(
+              origem
+                .toLowerCase()
+                .normalize("NFD")
+                .replace(/[\u0300-\u036f]/g, ""),
+            ),
+        )
+        .slice(0, 6)
+    : [];
+
+  const filtroDestino = destino
+    ? cidades
+        .filter((c) =>
+          c
+            .toLowerCase()
+            .normalize("NFD")
+            .replace(/[\u0300-\u036f]/g, "")
+            .includes(
+              destino
+                .toLowerCase()
+                .normalize("NFD")
+                .replace(/[\u0300-\u036f]/g, ""),
+            ),
+        )
+        .slice(0, 6)
+    : [];
+
   return (
     <div className="container w-4/5 mx-auto">
-      <div className=" flex justify-between gap-3 my-6">
+      <div className="flex justify-between gap-3 my-6">
         <div className="py-6 flex flex-col justify-center ">
           <h2 className="text-cyan-900 font-bold text-5xl">
             Viaje de forma inteligente:
@@ -22,61 +98,119 @@ export function Home() {
           </h3>
 
           <div className="flex justify-around mt-20">
-            <div className="p-3  border-2 border-orange-500 rounded-full ">
+            <div className="p-3 border-2 border-orange-500 rounded-full">
               <FaCar size={30} className="text-orange-500" />
             </div>
-            <div className="p-3  border-2 border-orange-500 rounded-full ">
+            <div className="p-3 border-2 border-orange-500 rounded-full">
               <FaBus size={30} className="text-orange-500" />
             </div>
-            <div className="p-3  border-2 border-orange-500 rounded-full ">
+            <div className="p-3 border-2 border-orange-500 rounded-full">
               <FaVanShuttle size={30} className="text-orange-500" />
             </div>
-            <div className="p-3  border-2 border-orange-500 rounded-full ">
+            <div className="p-3 border-2 border-orange-500 rounded-full">
               <FaTrain size={30} className="text-orange-500" />
             </div>
           </div>
         </div>
 
         <img
-          className="w-[35vw] rounded-2xl "
+          className="w-[35vw] rounded-2xl"
           src="/img/banner/aly.png"
-          alt=""
+          alt="Homem com mala sorrindo"
         />
       </div>
 
-      <div className="border-2 border-orange-500 rounded-2xl flex justify-between gap-2 items-center pl-3 mb-10">
-        <div className="flex items-center gap-2">
-          <FaAdjust color="#586680" className="text-gray-800 " />
+      <div className="border-2 border-orange-500 rounded-2xl flex items-stretch mb-10 bg-white shadow-sm h-14 relative z-20">
+        <div className="flex flex-1 items-center gap-2 px-4 relative">
+          <FaAdjust className="text-gray-500 shrink-0" />
           <input
             type="text"
-            className="text-gray-800 border-none "
-            placeholder="Saindo de"
+            value={origem}
+            onChange={(e) => setOrigem(e.target.value)}
+            onFocus={() => setFocoOrigem(true)}
+            onBlur={() => setTimeout(() => setFocoOrigem(false), 200)}
+            className="text-gray-800 w-full outline-none bg-transparent"
+            placeholder={cidades.length === 0 ? "Carregando..." : "Saindo de"}
+            disabled={cidades.length === 0}
+          />
+          {focoOrigem && origem && (
+            <ul className="absolute top-[110%] left-0 w-full bg-white border border-gray-200 shadow-xl rounded-xl overflow-hidden flex flex-col">
+              {filtroOrigem.length > 0 ? (
+                filtroOrigem.map((cidade) => (
+                  <li
+                    key={`origem-${cidade}`}
+                    onMouseDown={() => setOrigem(cidade)}
+                    className="px-4 py-3 hover:bg-orange-50 cursor-pointer text-gray-700 transition"
+                  >
+                    {cidade}
+                  </li>
+                ))
+              ) : (
+                <li className="px-4 py-3 text-gray-500 text-sm">
+                  Nenhuma cidade encontrada
+                </li>
+              )}
+            </ul>
+          )}
+        </div>
+
+        <div className="w-px bg-gray-300 my-2"></div>
+
+        <div className="flex flex-1 items-center gap-2 px-4 relative">
+          <FaAdjust className="text-gray-500 shrink-0" />
+          <input
+            type="text"
+            value={destino}
+            onChange={(e) => setDestino(e.target.value)}
+            onFocus={() => setFocoDestino(true)}
+            onBlur={() => setTimeout(() => setFocoDestino(false), 200)}
+            className="text-gray-800 w-full outline-none bg-transparent"
+            placeholder={cidades.length === 0 ? "Carregando..." : "Indo para"}
+            disabled={cidades.length === 0}
+          />
+          {focoDestino && destino && (
+            <ul className="absolute top-[110%] left-0 w-full bg-white border border-gray-200 shadow-xl rounded-xl overflow-hidden flex flex-col">
+              {filtroDestino.length > 0 ? (
+                filtroDestino.map((cidade) => (
+                  <li
+                    key={`destino-${cidade}`}
+                    onMouseDown={() => setDestino(cidade)}
+                    className="px-4 py-3 hover:bg-orange-50 cursor-pointer text-gray-700 transition"
+                  >
+                    {cidade}
+                  </li>
+                ))
+              ) : (
+                <li className="px-4 py-3 text-gray-500 text-sm">
+                  Nenhuma cidade encontrada
+                </li>
+              )}
+            </ul>
+          )}
+        </div>
+
+        <div className="w-px bg-gray-300 my-2"></div>
+
+        <div className="flex flex-1 items-center gap-2 px-4 cursor-text">
+          <FaCalendarAlt className="text-gray-500 shrink-0" />
+          <input
+            type="date"
+            className="text-gray-800 w-full outline-none bg-transparent cursor-pointer"
           />
         </div>
-        <div className="h-6 w-0.5 bg-gray-200"></div>
-        <div className="flex items-center gap-2">
-          <FaAdjust color="#586680" className="text-gray-800 " />
+
+        <div className="w-px bg-gray-300 my-2"></div>
+
+        <div className="flex flex-1 items-center gap-2 px-4">
+          <FaUser className="text-gray-500 shrink-0" />
           <input
             type="text"
-            className="text-gray-800 "
-            placeholder="Indo para"
-          />
-        </div>
-        <div className="h-6 w-0.5 bg-gray-200"></div>
-        <div className="flex items-center gap-2">
-          <FaCalendarAlt color="#586680" className="text-gray-800 " />
-          <input type="data" className="text-gray-800 " placeholder="Data" />
-        </div>
-        <div className="h-6 w-0.5 bg-gray-200"></div>
-        <div className="flex items-center gap-2">
-          <FaUser color="#586680" className="text-gray-800 " />
-          <input
-            type="text"
-            className="text-gray-800 "
+            className="text-gray-800 w-full outline-none bg-transparent"
             placeholder="1 Passageiro"
           />
         </div>
-        <button className="bg-orange-500 w-1/5 h-full text-white rounded-r-2xl cursor-pointer hover:bg-orange-600 p-3">
+
+        <button className="bg-orange-500 text-white font-bold h-full px-8 hover:bg-orange-600 transition cursor-pointer flex items-center justify-center rounded-r-[14px]">
           Pesquisar
         </button>
       </div>
@@ -95,7 +229,7 @@ export function Home() {
         </button>
       </div>
 
-      <div className="flex-col flex items-center my-45 gap-30 ">
+      <div className="flex-col flex items-center my-45 gap-30">
         <div className="flex gap-8">
           <img
             src="/img/banner/app.png"
