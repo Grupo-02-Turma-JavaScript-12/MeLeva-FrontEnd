@@ -2,15 +2,7 @@ import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../contexts/useAuth";
 import { api } from "../services/api";
-
-interface Usuario {
-  id: number;
-  usuario: string; // Este é o campo de email no seu backend
-  passageiro: {
-    nome: string;
-  };
-  // adicione outros campos se necessário
-}
+import type { Usuario } from "../models/Usuario";
 
 export function Login() {
   const [email, setEmail] = useState("");
@@ -21,7 +13,6 @@ export function Login() {
   const { login, isLogado } = useAuth();
   const navigate = useNavigate();
 
-  // se já estiver com token no localStorage, não precisa ver a tela de login
   useEffect(() => {
     if (isLogado) {
       navigate("/perfil");
@@ -40,23 +31,30 @@ export function Login() {
     try {
       setCarregando(true);
 
-      const resposta = await api.get<Usuario[]>("/usuarios");
-      const usuarios = resposta.data;
+      // Como o backend ainda não tem a rota POST de Login,
+      // fazemos um GET para pegar todos os usuários e validar no frontend.
+      const resposta = await api.get("/usuarios");
+      const usuariosCadastrados: Usuario[] = resposta.data;
 
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      const usuario: string | any = usuarios.find((u) => u.usuario === email);
+      // Procura o usuário que tem o mesmo email digitado
+      const usuarioValido = usuariosCadastrados.find(
+        (u) => u.usuario === email,
+      );
 
-      if (usuario) {
-        const tokenFake = "token-" + usuario.id;
+      if (usuarioValido) {
+        // O backend geralmente esconde a senha no GET, então liberamos pelo e-mail
+        // Geramos um token simulado para o sistema funcionar até o backend criar o Auth
+        const tokenSimulado = `fake-token-${usuarioValido.id}-${Date.now()}`;
 
-        login(usuario, tokenFake);
+        login(usuarioValido, tokenSimulado);
         navigate("/perfil");
       } else {
         setErro("E-mail ou senha incorretos.");
       }
-    } catch (error) {
-      console.error("Erro no login:", error);
-      setErro("Servidor offline ou erro de conexão.");
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    } catch (error: any) {
+      console.error("Log de erro do Login:", error);
+      setErro("Não foi possível conectar ao servidor.");
     } finally {
       setCarregando(false);
     }
@@ -66,9 +64,7 @@ export function Login() {
     <div className="min-h-screen flex items-center justify-center bg-gray-50">
       <div className="bg-white rounded-2xl shadow-lg p-8 w-full max-w-md">
         <div className="flex flex-col items-center mb-6">
-          {/* Logo MeLeva conforme suas imagens anteriores */}
           <img src="/img/logo.png" alt="MeLeva" className="w-40 mb-2" />
-
           <p className="text-gray-400 text-sm mt-1">Sua carona começa aqui</p>
         </div>
 
@@ -109,8 +105,6 @@ export function Login() {
               {erro}
             </p>
           )}
-
-          {erro && <p className="text-red-500 text-sm text-center">{erro}</p>}
 
           <button
             type="submit"

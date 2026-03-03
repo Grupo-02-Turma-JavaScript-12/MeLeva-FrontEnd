@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import {
   FaAdjust,
   FaBus,
@@ -9,7 +9,7 @@ import {
 } from "react-icons/fa";
 import { FaVanShuttle } from "react-icons/fa6";
 import { useNavigate } from "react-router-dom";
-import CarrosselCaronas from "../components/carona/carrosselcaronas/CarrosselCaronas";
+import { CarrosselCaronas } from "../components/carona/carrosselcaronas/CarrosselCaronas";
 import { TempoViagem } from "../components/tempoviagem/TempoViagem";
 
 export function Home() {
@@ -18,6 +18,11 @@ export function Home() {
   const [destino, setDestino] = useState("");
   const [focoOrigem, setFocoOrigem] = useState(false);
   const [focoDestino, setFocoDestino] = useState(false);
+  
+  const [filtrosAtivos, setFiltrosAtivos] = useState({ origem: "", destino: "" });
+
+  const navigate = useNavigate();
+  const searchRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     async function buscarCidades() {
@@ -35,7 +40,7 @@ export function Home() {
         const cidadesUnicas = Array.from(new Set(cidadesFormatadas)).sort();
         setCidades(cidadesUnicas as string[]);
       } catch (error) {
-        console.error("Erro ao buscar cidades do IBGE:", error);
+        console.error(error);
         setCidades([
           "São Paulo, SP",
           "Rio de Janeiro, RJ",
@@ -54,41 +59,24 @@ export function Home() {
     buscarCidades();
   }, []);
 
-  const filtroOrigem = origem
-    ? cidades
-        .filter((c) =>
-          c
-            .toLowerCase()
-            .normalize("NFD")
-            .replace(/[\u0300-\u036f]/g, "")
-            .includes(
-              origem
-                .toLowerCase()
-                .normalize("NFD")
-                .replace(/[\u0300-\u036f]/g, "")
-            )
-        )
-        .slice(0, 6)
-    : [];
+  const normalizarTexto = (texto: string) =>
+    texto.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
 
-  const navigate = useNavigate();
+  const filtroOrigem = origem
+    ? cidades.filter((c) => normalizarTexto(c).includes(normalizarTexto(origem))).slice(0, 6)
+    : [];
 
   const filtroDestino = destino
-    ? cidades
-        .filter((c) =>
-          c
-            .toLowerCase()
-            .normalize("NFD")
-            .replace(/[\u0300-\u036f]/g, "")
-            .includes(
-              destino
-                .toLowerCase()
-                .normalize("NFD")
-                .replace(/[\u0300-\u036f]/g, "")
-            )
-        )
-        .slice(0, 6)
+    ? cidades.filter((c) => normalizarTexto(c).includes(normalizarTexto(destino))).slice(0, 6)
     : [];
+
+  const handlePesquisar = () => {
+    setFiltrosAtivos({ origem, destino });
+  };
+
+  const scrollToSearch = () => {
+    searchRef.current?.scrollIntoView({ behavior: "smooth", block: "center" });
+  };
 
   return (
     <div className="container w-4/5 mx-auto">
@@ -125,8 +113,7 @@ export function Home() {
         />
       </div>
 
-      <div className="sticky top-20 z-8 border-2 border-orange-500 rounded-2xl flex items-stretch mb-10 bg-white shadow-sm h-14 ">
-        {/* Campo: Origem */}
+      <div ref={searchRef} className="sticky top-20 z-8 border-2 border-orange-500 rounded-2xl flex items-stretch mb-10 bg-white shadow-sm h-14">
         <div className="flex flex-1 items-center gap-2 px-4 relative">
           <FaAdjust className="text-gray-500 shrink-0" />
           <input
@@ -162,7 +149,6 @@ export function Home() {
 
         <div className="w-px bg-gray-300 my-2"></div>
 
-        {/* Campo: Destino */}
         <div className="flex flex-1 items-center gap-2 px-4 relative">
           <FaAdjust className="text-gray-500 shrink-0" />
           <input
@@ -198,7 +184,6 @@ export function Home() {
 
         <div className="w-px bg-gray-300 my-2"></div>
 
-        {/* Campo: Data */}
         <div className="flex flex-1 items-center gap-2 px-4 cursor-text">
           <FaCalendarAlt className="text-gray-500 shrink-0" />
           <input
@@ -209,7 +194,6 @@ export function Home() {
 
         <div className="w-px bg-gray-300 my-2"></div>
 
-        {/* Campo: Passageiro */}
         <div className="flex flex-1 items-center gap-2 px-4">
           <FaUser className="text-gray-500 shrink-0" />
           <input
@@ -219,15 +203,16 @@ export function Home() {
           />
         </div>
 
-        {/* Botão Pesquisar */}
         <button
-          onClick={() => navigate("/carona")}
+          onClick={handlePesquisar}
           className="bg-orange-500 text-white font-bold h-full px-8 hover:bg-orange-600 transition cursor-pointer flex items-center justify-center rounded-r-[14px]"
         >
           Pesquisar
         </button>
       </div>
-      <CarrosselCaronas />
+
+      <CarrosselCaronas filtros={filtrosAtivos} />
+
       <div className="text-center bg-cyan-950 p-14 rounded-3xl text-white flex flex-col gap-6">
         <h3 className="font-bold text-4xl">
           Ofereça uma carona. Corte seus custos.
@@ -237,14 +222,18 @@ export function Home() {
           menor custo de viagem. É simples: compartilhe sua viagem e encontre
           passageiros para dividir as despesas de combustível e pedágio.
         </p>
-        <button className="bg-white rounded-2xl p-4 w-1/3 font-bold text-md mx-auto text-black cursor-pointer hover:bg-cyan-50">
+        <button 
+          onClick={() => navigate("/oferecercorrida")}
+          className="bg-white rounded-2xl p-4 w-1/3 font-bold text-md mx-auto text-black cursor-pointer hover:bg-cyan-50"
+        >
           Oferecer carona
         </button>
       </div>
+
       <div className="pt-[1.1rem]">
         <TempoViagem />
       </div>
-      {/* <TempoViagem /> */}
+
       <div className="flex flex-col items-center my-12 gap-12">
         <div className="flex gap-8">
           <img
@@ -265,7 +254,7 @@ export function Home() {
               Assim, os perfis ficam mais precisos para que você possa reservar
               com mais confiança!
             </p>
-            <button className="rounded-3xl bg-amber-500 text-white p-4 cursor-pointer w-1/7">
+            <button onClick={scrollToSearch} className="rounded-3xl bg-amber-500 text-white p-4 cursor-pointer w-1/7">
               Partiu!
             </button>
           </div>
@@ -290,7 +279,7 @@ export function Home() {
               dirigir por horas. Recomendo demais para quem quer viajar com os
               amigos e economizar de verdade. Nota 10!"
             </p>
-            <button className="rounded-3xl bg-amber-500 text-white p-4 cursor-pointer w-1/7">
+            <button onClick={scrollToSearch} className="rounded-3xl bg-amber-500 text-white p-4 cursor-pointer w-1/7">
               Partiu!
             </button>
           </div>
@@ -312,7 +301,7 @@ export function Home() {
               cerca de R$75 em cada viagem. Fazendo isso duas vezes por mês,
               economizo quase R$2000 por ano só de gasolina!"
             </p>
-            <button className="rounded-3xl bg-amber-500 text-white p-4 cursor-pointer w-1/7">
+            <button onClick={scrollToSearch} className="rounded-3xl bg-amber-500 text-white p-4 cursor-pointer w-1/7">
               Partiu!
             </button>
           </div>

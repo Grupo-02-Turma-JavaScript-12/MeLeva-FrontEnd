@@ -8,9 +8,12 @@ import { Cadastro } from "./pages/Cadastro";
 import { Contato } from "./pages/Contato";
 import { Home } from "./pages/Home";
 import { Login } from "./pages/Login";
-import OfferRide from "./pages/OfferRide";
+import { OfferRide } from "./pages/OfferRide";
 import { Perfil } from "./pages/Perfil";
 import { Sobre } from "./pages/Sobre";
+import { EditarPerfil } from "./pages/EditarPerfil";
+import { ReservarCarona } from "./pages/ReservarCarona";
+import { MinhasReservas } from "./pages/MinhasReservas"; // IMPORT NOVO
 
 export function App() {
   return (
@@ -23,8 +26,12 @@ export function App() {
             <Route path="/" element={<Home />} />
             <Route path="/login" element={<Login />} />
             <Route path="/perfil" element={<Perfil />} />
+            <Route path="/perfil/editar" element={<EditarPerfil />} />
             <Route path="/cadastro" element={<Cadastro />} />
             <Route path="/oferecercorrida" element={<OfferRide />} />
+            <Route path="/reservar/:id" element={<ReservarCarona />} />
+            <Route path="/minhas-reservas" element={<MinhasReservas />} />{" "}
+            {/* ROTA NOVA */}
             <Route path="/sobre" element={<Sobre />} />
             <Route path="/contato" element={<Contato />} />
           </Routes>

@@ -1,6 +1,6 @@
 import type { Usuario } from "./Usuario";
 
-export default interface Reserva {
+export interface Reserva {
   id: number;
   status: string;
   passageiro: Usuario;

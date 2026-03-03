@@ -1,12 +1,13 @@
 import type { Usuario } from "./Usuario";
 
-export default interface Carona {
+
+export interface Carona {
   id: number;
   origem: string;
   destino: string;
-  vagas_disponiveis: string;
-  Foto_destino:string;
-  valor: string;
-  reservas: string;
+  vagas_disponiveis: string | number;
+  Foto_destino: string;
+  valor: string | number;
+  reservas?: string;
   motorista: Usuario;
 }
