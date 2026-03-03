@@ -1,8 +1,8 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import api from "../services/api";
+import { api } from "../services/api";
 
-export default function Cadastro() {
+export function Cadastro() {
   const [form, setForm] = useState({
     nome: "",
     cpf: "",
@@ -61,7 +61,6 @@ export default function Cadastro() {
               className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-orange-400"
             />
           </div>
-
           <div>
             <label className="block text-sm font-medium text-gray-600 mb-1">
               CPF
@@ -75,7 +74,6 @@ export default function Cadastro() {
               className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-orange-400"
             />
           </div>
-
           <div>
             <label className="block text-sm font-medium text-gray-600 mb-1">
               E-mail
@@ -89,7 +87,6 @@ export default function Cadastro() {
               className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-orange-400"
             />
           </div>
-
           <div>
             <label className="block text-sm font-medium text-gray-600 mb-1">
               Telefone

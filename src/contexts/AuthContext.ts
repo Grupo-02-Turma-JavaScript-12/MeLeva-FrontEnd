@@ -1,13 +1,13 @@
 import { createContext } from "react";
 
-interface Usuario {
+export interface Usuario {
   id: number;
   nome: string;
   email: string;
   foto?: string;
 }
 
-interface AuthContextType {
+export interface AuthContextType {
   usuario: Usuario | null;
   token: string;
   login: (usuario: Usuario, token: string) => void;
@@ -15,5 +15,6 @@ interface AuthContextType {
   isLogado: boolean;
 }
 
-export type { Usuario, AuthContextType };
-export const AuthContext = createContext<AuthContextType>({} as AuthContextType);
+export const AuthContext = createContext<AuthContextType>(
+  {} as AuthContextType,
+);

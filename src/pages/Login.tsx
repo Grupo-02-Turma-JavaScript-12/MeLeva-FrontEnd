@@ -1,9 +1,8 @@
 import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../contexts/useAuth";
-import api from "../services/api";
+import { api } from "../services/api";
 
-// Definição do tipo baseada no seu JSON de backend
 interface Usuario {
   id: number;
   usuario: string; // Este é o campo de email no seu backend
@@ -13,7 +12,7 @@ interface Usuario {
   // adicione outros campos se necessário
 }
 
-export default function Login() {
+export function Login() {
   const [email, setEmail] = useState("");
   const [senha, setSenha] = useState("");
   const [erro, setErro] = useState("");
@@ -69,6 +68,7 @@ export default function Login() {
         <div className="flex flex-col items-center mb-6">
           {/* Logo MeLeva conforme suas imagens anteriores */}
           <img src="/img/logo.png" alt="MeLeva" className="w-40 mb-2" />
+
           <p className="text-gray-400 text-sm mt-1">Sua carona começa aqui</p>
         </div>
 
@@ -90,7 +90,6 @@ export default function Login() {
               required
             />
           </div>
-
           <div>
             <label className="block text-sm font-medium text-gray-600 mb-1">
               Senha
@@ -110,6 +109,8 @@ export default function Login() {
               {erro}
             </p>
           )}
+
+          {erro && <p className="text-red-500 text-sm text-center">{erro}</p>}
 
           <button
             type="submit"

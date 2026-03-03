@@ -2,7 +2,7 @@ import { useNavigate } from "react-router-dom";
 import { useAuth } from "../contexts/useAuth";
 import { useEffect } from "react";
 
-export default function Perfil() {
+export function Perfil() {
   const { usuario, logout, isLogado } = useAuth();
   const navigate = useNavigate();
 
@@ -20,13 +20,13 @@ export default function Perfil() {
   return (
     <div className="min-h-screen bg-gray-50 flex items-center justify-center">
       <div className="bg-white rounded-2xl shadow-lg p-8 w-full max-w-sm text-center">
-
         <div className="flex flex-col items-center mb-4">
-          <span className="text-2xl font-extrabold text-orange-500">🚗 MeLeva</span>
+          <span className="text-2xl font-extrabold text-orange-500">
+            🚗 MeLeva
+          </span>
           <p className="text-gray-400 text-sm">Meu Perfil</p>
         </div>
 
-        {/* Avatar */}
         <div className="flex justify-center mb-4">
           {usuario.foto ? (
             <img

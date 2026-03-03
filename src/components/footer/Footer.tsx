@@ -1,5 +1,5 @@
-import logo from "../../images/logo.svg";
-import dribbbleIcon from "../../images/dribble.svg";
+import { Link } from "react-router-dom";
+import dribbbleIcon from "../../assets/dribble.svg";
 import {
   FacebookLogoIcon,
   GithubLogoIcon,
@@ -8,31 +8,28 @@ import {
 } from "@phosphor-icons/react";
 
 export function Footer() {
-  // eslint-disable-next-line prefer-const
-  let data = new Date().getFullYear();
+  const data = new Date().getFullYear();
 
   return (
     <footer className="bg-white">
       <div className="mx-auto max-w-7xl space-y-8 px-4 py-16 sm:px-6 lg:space-y-16 lg:px-8">
         <div className="sm:flex sm:items-center sm:justify-between">
           <div className="text-teal-600">
-            <img src={logo} alt="Logo da Empresa" className="h-8" />
+            <img src="../../../public/img/logo.png" alt="logo" className="w-35 items-center" />
           </div>
 
           <ul className="mt-8 flex justify-start gap-6 sm:mt-0 sm:justify-end">
             <li>
-              <a
-                href="#"
+              <Link
+                to="#"
                 rel="noreferrer"
                 target="_blank"
                 className="text-gray-700 transition hover:opacity-75 hover:text-teal-600"
               >
                 <span className="sr-only">Facebook</span>
-
                 <FacebookLogoIcon size={24} weight="fill" />
-              </a>
+              </Link>
             </li>
-
             <li>
               <a
                 href="#"
@@ -44,7 +41,6 @@ export function Footer() {
                 <InstagramLogoIcon size={24} weight="fill" />
               </a>
             </li>
-
             <li>
               <a
                 href="#"
@@ -56,7 +52,6 @@ export function Footer() {
                 <TwitterLogoIcon size={24} weight="fill" />
               </a>
             </li>
-
             <li>
               <a
                 href="#"
@@ -68,7 +63,6 @@ export function Footer() {
                 <GithubLogoIcon size={24} weight="fill" />
               </a>
             </li>
-
             <li>
               <a
                 href="#"
@@ -77,7 +71,6 @@ export function Footer() {
                 className="text-gray-700 transition hover:opacity-75 hover:text-teal-600"
               >
                 <span className="sr-only">Dribbble</span>
-
                 <img src={dribbbleIcon} alt="Dribbble" className="size-6" />
               </a>
             </li>
@@ -86,15 +79,14 @@ export function Footer() {
 
         <div className="grid grid-cols-1 gap-8 border-t border-gray-100 pt-8 sm:grid-cols-2 lg:grid-cols-4 lg:pt-16">
           <div>
-            <p className="font-medium text-gray-900">Services</p>
-
+            <p className="font-medium text-gray-900">Serviços</p>
             <ul className="mt-6 space-y-4 text-sm">
               <li>
                 <a
                   href="#"
                   className="text-gray-700 transition hover:opacity-75"
                 >
-                  1on1 Coaching
+                  Oferecer Carona
                 </a>
               </li>
               <li>
@@ -102,7 +94,7 @@ export function Footer() {
                   href="#"
                   className="text-gray-700 transition hover:opacity-75"
                 >
-                  Company Review
+                  Procurar Carona
                 </a>
               </li>
               <li>
@@ -110,7 +102,7 @@ export function Footer() {
                   href="#"
                   className="text-gray-700 transition hover:opacity-75"
                 >
-                  Accounts Review
+                  Cálculo de Custos
                 </a>
               </li>
               <li>
@@ -118,7 +110,7 @@ export function Footer() {
                   href="#"
                   className="text-gray-700 transition hover:opacity-75"
                 >
-                  HR Consulting
+                  Avaliações de Usuários
                 </a>
               </li>
               <li>
@@ -126,22 +118,21 @@ export function Footer() {
                   href="#"
                   className="text-gray-700 transition hover:opacity-75"
                 >
-                  SEO Optimisation
+                  Viagens Seguras
                 </a>
               </li>
             </ul>
           </div>
 
           <div>
-            <p className="font-medium text-gray-900">Company</p>
-
+            <p className="font-medium text-gray-900">Empresa</p>
             <ul className="mt-6 space-y-4 text-sm">
               <li>
                 <a
-                  href="#"
+                  href="/sobre"
                   className="text-gray-700 transition hover:opacity-75"
                 >
-                  About
+                  Sobre o MeLeva
                 </a>
               </li>
               <li>
@@ -149,7 +140,7 @@ export function Footer() {
                   href="#"
                   className="text-gray-700 transition hover:opacity-75"
                 >
-                  Meet the Team
+                  Nossa Missão
                 </a>
               </li>
               <li>
@@ -157,22 +148,37 @@ export function Footer() {
                   href="#"
                   className="text-gray-700 transition hover:opacity-75"
                 >
-                  Accounts Review
+                  Sustentabilidade
+                </a>
+              </li>
+              <li>
+                <a
+                  href="#"
+                  className="text-gray-700 transition hover:opacity-75"
+                >
+                  Imprensa
+                </a>
+              </li>
+              <li>
+                <a
+                  href="#"
+                  className="text-gray-700 transition hover:opacity-75"
+                >
+                  Carreiras
                 </a>
               </li>
             </ul>
           </div>
 
           <div>
-            <p className="font-medium text-gray-900">Helpful Links</p>
-
+            <p className="font-medium text-gray-900">Links Úteis</p>
             <ul className="mt-6 space-y-4 text-sm">
               <li>
                 <a
-                  href="#"
+                  href="/contato"
                   className="text-gray-700 transition hover:opacity-75"
                 >
-                  Contact
+                  Contato
                 </a>
               </li>
               <li>
@@ -180,7 +186,7 @@ export function Footer() {
                   href="#"
                   className="text-gray-700 transition hover:opacity-75"
                 >
-                  FAQs
+                  Central de Ajuda
                 </a>
               </li>
               <li>
@@ -188,7 +194,15 @@ export function Footer() {
                   href="#"
                   className="text-gray-700 transition hover:opacity-75"
                 >
-                  Live Chat
+                  Dúvidas Frequentes
+                </a>
+              </li>
+              <li>
+                <a
+                  href="#"
+                  className="text-gray-700 transition hover:opacity-75"
+                >
+                  Blog de Viagens
                 </a>
               </li>
             </ul>
@@ -196,14 +210,13 @@ export function Footer() {
 
           <div>
             <p className="font-medium text-gray-900">Legal</p>
-
             <ul className="mt-6 space-y-4 text-sm">
               <li>
                 <a
                   href="#"
                   className="text-gray-700 transition hover:opacity-75"
                 >
-                  Accessibility
+                  Termos de Uso
                 </a>
               </li>
               <li>
@@ -211,7 +224,7 @@ export function Footer() {
                   href="#"
                   className="text-gray-700 transition hover:opacity-75"
                 >
-                  Returns Policy
+                  Política de Privacidade
                 </a>
               </li>
               <li>
@@ -219,7 +232,7 @@ export function Footer() {
                   href="#"
                   className="text-gray-700 transition hover:opacity-75"
                 >
-                  Refund Policy
+                  Regras de Convivência
                 </a>
               </li>
               <li>
@@ -227,7 +240,7 @@ export function Footer() {
                   href="#"
                   className="text-gray-700 transition hover:opacity-75"
                 >
-                  Hiring-3 Statistics
+                  Política de Cancelamento
                 </a>
               </li>
             </ul>
@@ -235,7 +248,7 @@ export function Footer() {
         </div>
 
         <p className="text-xs text-gray-500">
-          © {data}. MeLeva Carona. All rights reserved.
+          © {data}. MeLeva Carona. Todos os direitos reservados.
         </p>
       </div>
     </footer>

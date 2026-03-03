@@ -1,7 +1,7 @@
 import { MapPin } from "lucide-react";
 import { useEffect, useState, type ChangeEvent } from "react";
 import { useNavigate } from "react-router-dom";
-import api from "../services/api";
+import { api } from "../services/api";
 
 export default function OfferRide() {
   const navigate = useNavigate();
