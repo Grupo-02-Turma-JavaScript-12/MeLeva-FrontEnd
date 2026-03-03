@@ -11,6 +11,7 @@ import { Login } from "./pages/Login";
 import { OfferRide } from "./pages/OfferRide";
 import { Perfil } from "./pages/Perfil";
 import { Sobre } from "./pages/Sobre";
+import { EditarPerfil } from "./pages/EditarPerfil";
 
 export function App() {
   return (
@@ -23,6 +24,7 @@ export function App() {
             <Route path="/" element={<Home />} />
             <Route path="/login" element={<Login />} />
             <Route path="/perfil" element={<Perfil />} />
+            <Route path="/perfil/editar" element={<EditarPerfil />} />
             <Route path="/cadastro" element={<Cadastro />} />
             <Route path="/oferecercorrida" element={<OfferRide />} />
             <Route path="/sobre" element={<Sobre />} />

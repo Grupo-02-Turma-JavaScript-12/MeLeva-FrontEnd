@@ -1,11 +1,16 @@
 import { CiSearch } from "react-icons/ci";
 import { FaUserCircle } from "react-icons/fa";
 import { GoQuestion } from "react-icons/go";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { useAuth } from "../../contexts/useAuth";
 
 export function Navbar() {
   const { usuario, isLogado } = useAuth();
+  const location = useLocation();
+
+  if (location.pathname === "/login" || location.pathname === "/cadastro") {
+    return null;
+  }
 
   return (
     <div className="flex w-full justify-around items-center px-4 py-2 shadow top-0 left-0 fixed z-10 bg-white">
