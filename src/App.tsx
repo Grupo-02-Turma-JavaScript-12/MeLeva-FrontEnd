@@ -1,14 +1,16 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
+
 import { Footer } from "./components/footer/Footer";
-import { Home } from "./pages/Home";
 import { Navbar } from "./components/navbar/Navbar";
-import { Login } from "./pages/Login";
-import { Perfil } from "./pages/Perfil";
+import { ScrollToTop } from "./components/ScrollToTop";
 import { AuthProvider } from "./contexts/AuthProvider";
 import { Cadastro } from "./pages/Cadastro";
-import { Sobre } from "./pages/Sobre";
 import { Contato } from "./pages/Contato";
-import { ScrollToTop } from "./components/ScrollToTop";
+import { Home } from "./pages/Home";
+import { Login } from "./pages/Login";
+import OfferRide from "./pages/OfferRide";
+import { Perfil } from "./pages/Perfil";
+import { Sobre } from "./pages/Sobre";
 
 export function App() {
   return (
@@ -22,6 +24,7 @@ export function App() {
             <Route path="/login" element={<Login />} />
             <Route path="/perfil" element={<Perfil />} />
             <Route path="/cadastro" element={<Cadastro />} />
+            <Route path="/oferecercorrida" element={<OfferRide />} />
             <Route path="/sobre" element={<Sobre />} />
             <Route path="/contato" element={<Contato />} />
           </Routes>

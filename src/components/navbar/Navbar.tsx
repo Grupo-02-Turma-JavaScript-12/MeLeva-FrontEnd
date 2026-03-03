@@ -29,9 +29,15 @@ export function Navbar() {
         <a className="rounded-full hover:bg-amber-50 p-2" href="#">
           <GoQuestion className="text-orange-500" size={24} />
         </a>
-        <button className="rounded-3xl text-orange-500 border-2 font-bold border-orange-500 p-2 cursor-pointer hover:bg-orange-50">
-          Oferecer carona
-        </button>
+
+
+        <Link to={"/oferecercorrida"}>
+          {" "}
+          <button className="rounded-3xl text-orange-500 border-2 font-bold border-orange-500 p-2 cursor-pointer hover:bg-orange-50">
+            Oferecer carona
+          </button>
+        </Link>
+
         <Link className="rounded-full hover:bg-amber-50 p-2" to="/login">
           <FaUserCircle className="text-orange-500" size={38} />
         </Link>

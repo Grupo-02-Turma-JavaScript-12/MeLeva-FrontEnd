@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useNavigate, Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { api } from "../services/api";
 
 export function Cadastro() {
@@ -8,7 +8,7 @@ export function Cadastro() {
     cpf: "",
     usuario: "",
     telefone: "",
-    nota_avaliacao: 0,
+    nota_avaliacao: 5,
   });
   const [erro, setErro] = useState("");
   const [carregando, setCarregando] = useState(false);
@@ -30,7 +30,7 @@ export function Cadastro() {
 
     try {
       setCarregando(true);
-      await api.post("/usuarios", form);
+      await api.post("/usuarios/cadastrar", form);
       navigate("/login");
     } catch {
       setErro("Erro ao cadastrar. Tente novamente.");
