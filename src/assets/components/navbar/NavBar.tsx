@@ -6,7 +6,9 @@ import { Link } from "react-router-dom";
 export function Navbar() {
   return (
     <div className="flex container justify-around mx-auto items-center px-4 py-2 shadow top-0 fixed z-10 bg-white">
-      <img src="/img/logo.png" alt="logo" className="w-35 items-center" />
+      <Link to={"/"}>
+        <img src="/img/logo.png" alt="logo" className="w-35 items-center" />
+      </Link>
 
       <div className="flex justify-between gap-8">
         <Link
@@ -38,14 +40,16 @@ export function Navbar() {
           <GoQuestion className="text-orange-500" size={24} />
         </a>
 
-        <button className="rounded-3xl text-orange-500 border-2 font-bold border-orange-500 p-2 cursor-pointer hover:bg-orange-50">
-          Oferecer carona
-        </button>
+        <Link to={"/oferecercorrida"}>
+          {" "}
+          <button className="rounded-3xl text-orange-500 border-2 font-bold border-orange-500 p-2 cursor-pointer hover:bg-orange-50">
+            Oferecer carona
+          </button>
+        </Link>
 
         <Link className="rounded-full hover:bg-amber-50 p-2" to="/login">
-  <FaUserCircle className="text-orange-500" size={38} />
-</Link>
-
+          <FaUserCircle className="text-orange-500" size={38} />
+        </Link>
       </div>
     </div>
   );

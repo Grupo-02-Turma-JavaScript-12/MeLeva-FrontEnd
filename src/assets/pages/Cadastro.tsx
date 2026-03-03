@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useNavigate, Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import api from "../services/api";
 
 export default function Cadastro() {
@@ -8,7 +8,7 @@ export default function Cadastro() {
     cpf: "",
     usuario: "",
     telefone: "",
-    nota_avaliacao: 0,
+    nota_avaliacao: 5,
   });
   const [erro, setErro] = useState("");
   const [carregando, setCarregando] = useState(false);
@@ -30,7 +30,7 @@ export default function Cadastro() {
 
     try {
       setCarregando(true);
-      await api.post("/usuarios", form);
+      await api.post("/usuarios/cadastrar", form);
       navigate("/login");
     } catch {
       setErro("Erro ao cadastrar. Tente novamente.");
@@ -42,12 +42,10 @@ export default function Cadastro() {
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-50">
       <div className="bg-white rounded-2xl shadow-lg p-8 w-full max-w-md">
-
         <div className="flex flex-col items-center mb-6">
-        <img src="/img/logo.png" alt="logo" className="w-35 mb-2" />
-        <p className="text-gray-400 text-sm mt-1">Crie sua conta</p>
-      </div>
-
+          <img src="/img/logo.png" alt="logo" className="w-35 mb-2" />
+          <p className="text-gray-400 text-sm mt-1">Crie sua conta</p>
+        </div>
 
         <form onSubmit={handleCadastro} className="flex flex-col gap-4">
           <div>
@@ -106,9 +104,7 @@ export default function Cadastro() {
             />
           </div>
 
-          {erro && (
-            <p className="text-red-500 text-sm text-center">{erro}</p>
-          )}
+          {erro && <p className="text-red-500 text-sm text-center">{erro}</p>}
 
           <button
             type="submit"

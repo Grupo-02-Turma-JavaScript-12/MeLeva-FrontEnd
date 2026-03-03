@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const api = axios.create({
-  baseURL: "https://aplicativo-de-carona-compartilhada.onrender.com/swagger",
+  baseURL: "https://aplicativo-de-carona-compartilhada.onrender.com",
 });
 
 api.interceptors.request.use((config) => {
