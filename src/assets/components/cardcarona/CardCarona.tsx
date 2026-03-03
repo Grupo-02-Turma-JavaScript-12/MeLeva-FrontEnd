@@ -24,7 +24,7 @@ function CardCarona() {
         </div>
       </div>
       <div className="px-4 font-bold text-slate-900">
-        <p className="text-center mb-2 pb-[.2rem] items-center rounded-[.5rem] w-25  bg-green-800 text-white ">Promoção</p>
+        <p className="text-center mb-2 pb-[.2rem] items-center rounded-lg w-25  bg-green-800 text-white ">Promoção</p>
         <p>A partir de</p>
         <h1 className="text-3xl">
           R$:23<span className="pt-2 text-sm">,75</span>

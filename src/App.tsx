@@ -9,8 +9,6 @@ import Perfil from "./assets/pages/Perfil";
 import { AuthProvider } from "./assets/contexts/AuthProvider";
 import Cadastro from "./assets/pages/Cadastro";
 
-
-
 export function App() {
   return (
     <AuthProvider>
