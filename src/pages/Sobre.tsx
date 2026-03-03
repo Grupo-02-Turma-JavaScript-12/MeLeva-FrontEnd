@@ -28,7 +28,7 @@ export function Sobre() {
         </div>
         <div>
           <img
-            src="/img/banner/aly.png"
+            src="/img/banner/time.png"
             alt="Nossa missão"
             className="rounded-3xl shadow-lg w-full"
           />

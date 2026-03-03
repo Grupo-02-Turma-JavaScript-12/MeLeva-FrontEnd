@@ -13,9 +13,8 @@ export default function OfferRide() {
     destino: "",
     distancia: "",
     vagas_disponiveis: 1,
+    Foto_destino: "",
     valor: "",
-    date: "",
-    time: "",
   });
 
   useEffect(() => {
@@ -64,8 +63,7 @@ export default function OfferRide() {
       const payload = {
         origem: formData.origem,
         destino: formData.destino,
-        distancia: Number(formData.distancia),
-        vagas_disponiveis: Number(formData.vagas_disponiveis),
+        Foto_destino: "",
         valor: Number(formData.valor),
         motorista: {
           id: motoristaData.id,
