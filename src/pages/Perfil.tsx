@@ -42,7 +42,8 @@ export function Perfil() {
         </div>
 
         <h2 className="text-2xl font-bold text-gray-800">{usuario.nome}</h2>
-        <p className="text-gray-500 mt-1">{usuario.email}</p>
+
+        <p className="text-gray-500 mt-1">{usuario.usuario}</p>
 
         <div className="mt-6 flex flex-col gap-3">
           <button

@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import dribbbleIcon from "../../assets/dribble.svg";
 import {
   FacebookLogoIcon,
@@ -9,6 +9,12 @@ import {
 
 export function Footer() {
   const data = new Date().getFullYear();
+  const location = useLocation();
+
+  // Esconde o Footer nas rotas de login e cadastro
+  if (location.pathname === "/login" || location.pathname === "/cadastro") {
+    return null;
+  }
 
   return (
     <footer className="bg-white">
