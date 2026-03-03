@@ -38,7 +38,7 @@ function CardCarona({ carona }: CardCaronaProps) {
                 const valorFormatado = new Intl.NumberFormat("pt-BR", {
                   style: "currency",
                   currency: "BRL",
-                }).format(carona.valor);
+                }).format(Number(carona.valor)); // conversão para número
 
                 // separa em duas partes: "R$ 34" e "00"
                 const [inteiro, decimal] = valorFormatado.split(",");
