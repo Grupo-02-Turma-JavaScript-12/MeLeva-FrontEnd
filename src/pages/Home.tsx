@@ -9,7 +9,7 @@ import {
 } from "react-icons/fa";
 import { FaVanShuttle } from "react-icons/fa6";
 import { useNavigate } from "react-router-dom";
-import CarrosselCaronas from "../components/carona/carrosselcaronas/CarrosselCaronas";
+import { CarrosselCaronas } from "../components/carona/carrosselcaronas/CarrosselCaronas";
 import { TempoViagem } from "../components/tempoviagem/TempoViagem";
 
 export function Home() {
@@ -23,7 +23,7 @@ export function Home() {
     async function buscarCidades() {
       try {
         const resposta = await fetch(
-          "https://servicodados.ibge.gov.br/api/v1/localidades/municipios?view=nivelado"
+          "https://servicodados.ibge.gov.br/api/v1/localidades/municipios?view=nivelado",
         );
         const dados = await resposta.json();
 
@@ -65,8 +65,8 @@ export function Home() {
               origem
                 .toLowerCase()
                 .normalize("NFD")
-                .replace(/[\u0300-\u036f]/g, "")
-            )
+                .replace(/[\u0300-\u036f]/g, ""),
+            ),
         )
         .slice(0, 6)
     : [];
@@ -84,8 +84,8 @@ export function Home() {
               destino
                 .toLowerCase()
                 .normalize("NFD")
-                .replace(/[\u0300-\u036f]/g, "")
-            )
+                .replace(/[\u0300-\u036f]/g, ""),
+            ),
         )
         .slice(0, 6)
     : [];

@@ -1,9 +1,7 @@
 import axios from "axios";
 
-
 export const api = axios.create({
   baseURL: "https://aplicativo-de-carona-compartilhada.onrender.com",
-
 });
 
 api.interceptors.request.use((config) => {
@@ -13,5 +11,3 @@ api.interceptors.request.use((config) => {
   }
   return config;
 });
-
-

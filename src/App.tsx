@@ -8,7 +8,7 @@ import { Cadastro } from "./pages/Cadastro";
 import { Contato } from "./pages/Contato";
 import { Home } from "./pages/Home";
 import { Login } from "./pages/Login";
-import OfferRide from "./pages/OfferRide";
+import { OfferRide } from "./pages/OfferRide";
 import { Perfil } from "./pages/Perfil";
 import { Sobre } from "./pages/Sobre";
 

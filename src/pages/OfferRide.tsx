@@ -2,9 +2,13 @@ import { MapPin } from "lucide-react";
 import { useEffect, useState, type ChangeEvent } from "react";
 import { useNavigate } from "react-router-dom";
 import { api } from "../services/api";
+import { useAuth } from "../contexts/useAuth";
 
-export default function OfferRide() {
+export function OfferRide() {
   const navigate = useNavigate();
+
+  const { usuario, token } = useAuth();
+
   const [carregando, setCarregando] = useState(false);
   const [tempoEstimado, setTempoEstimado] = useState("");
 
@@ -16,6 +20,13 @@ export default function OfferRide() {
     Foto_destino: "",
     valor: "",
   });
+
+  useEffect(() => {
+    if (!usuario) {
+      alert("Você precisa fazer login para oferecer uma carona.");
+      navigate("/login");
+    }
+  }, [usuario, navigate]);
 
   useEffect(() => {
     const calcularTempo = async () => {
@@ -46,51 +57,43 @@ export default function OfferRide() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    // CORREÇÃO AQUI: A chave no seu print é 'usuario'
-    const usuarioSalvo = localStorage.getItem("usuario");
-
-    if (!usuarioSalvo) {
-      alert(
-        "Erro: Não encontramos sua sessão no LocalStorage. Tente fazer login novamente."
-      );
-      return;
-    }
+    if (!usuario) return;
 
     try {
-      const motoristaData = JSON.parse(usuarioSalvo);
-
-      // Montando o payload com base no seu print do LocalStorage
       const payload = {
         origem: formData.origem,
         destino: formData.destino,
-        Foto_destino: "",
+        Foto_destino:
+          formData.Foto_destino ||
+          "https://www.direcional.com.br/wp-content/uploads/2023/06/Boa-Viagem-Recife.webp",
         valor: Number(formData.valor),
+        vagas_disponiveis: formData.vagas_disponiveis,
         motorista: {
-          id: motoristaData.id,
-          nome: motoristaData.nome,
-          cpf: motoristaData.cpf,
-          usuario: motoristaData.usuario, // Seu email está aqui
-          telefone: motoristaData.telefone,
-          nota_avaliacao: Number(motoristaData.nota_avaliacao) || 5,
+          id: usuario.id,
         },
       };
 
       setCarregando(true);
-      await api.post("/caronas", payload);
+
+      await api.post("/caronas", payload, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+
       alert("Carona publicada com sucesso! 🚗");
-      navigate("/buscarcarona");
+      navigate("/");
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {
       console.error(error);
-      alert("Erro ao publicar carona. Verifique o console.");
+      alert("Erro ao publicar carona. Verifique se os dados estão corretos.");
     } finally {
       setCarregando(false);
     }
   };
 
+  if (!usuario) return null;
+
   return (
     <div className="min-h-screen bg-gray-50 flex flex-col items-center py-12 px-4 font-['Poppins']">
-      {/* ... O restante do HTML (JSX) permanece o mesmo do código anterior ... */}
       <div className="max-w-xl w-full bg-white rounded-3xl shadow-xl overflow-hidden border border-gray-100">
         <form onSubmit={handleSubmit} className="p-8 space-y-5">
           <h2 className="text-2xl font-extrabold text-[#342d70] text-center mb-6">
@@ -178,7 +181,7 @@ export default function OfferRide() {
                         vagas_disponiveis: Math.max(1, p.vagas_disponiveis - 1),
                       }))
                     }
-                    className="w-8 h-8 bg-white rounded shadow"
+                    className="w-8 h-8 bg-white rounded shadow cursor-pointer hover:bg-gray-50"
                   >
                     -
                   </button>
@@ -190,7 +193,7 @@ export default function OfferRide() {
                         vagas_disponiveis: Math.min(8, p.vagas_disponiveis + 1),
                       }))
                     }
-                    className="w-8 h-8 bg-white rounded shadow"
+                    className="w-8 h-8 bg-white rounded shadow cursor-pointer hover:bg-gray-50"
                   >
                     +
                   </button>
@@ -202,7 +205,7 @@ export default function OfferRide() {
           <button
             type="submit"
             disabled={carregando}
-            className="w-full bg-[#342d70] hover:bg-orange-600 text-white font-bold py-4 rounded-xl shadow-lg transition-all disabled:opacity-50"
+            className="w-full bg-[#342d70] hover:bg-orange-600 text-white font-bold py-4 rounded-xl shadow-lg transition-all disabled:opacity-50 cursor-pointer"
           >
             {carregando ? "ENVIANDO..." : "PUBLICAR CARONA"}
           </button>
