@@ -1,5 +1,5 @@
-import logo from "../../images/logo.svg";
-import dribbbleIcon from "../../images/dribble.svg";
+import { Link } from "react-router-dom";
+import dribbbleIcon from "../../assets/dribble.svg";
 import {
   FacebookLogoIcon,
   GithubLogoIcon,
@@ -15,20 +15,20 @@ export function Footer() {
       <div className="mx-auto max-w-7xl space-y-8 px-4 py-16 sm:px-6 lg:space-y-16 lg:px-8">
         <div className="sm:flex sm:items-center sm:justify-between">
           <div className="text-teal-600">
-            <img src={logo} alt="Logo da Empresa" className="h-8" />
+            <img src="../../../public/img/logo.png" alt="logo" className="w-35 items-center" />
           </div>
 
           <ul className="mt-8 flex justify-start gap-6 sm:mt-0 sm:justify-end">
             <li>
-              <a
-                href="#"
+              <Link
+                to="#"
                 rel="noreferrer"
                 target="_blank"
                 className="text-gray-700 transition hover:opacity-75 hover:text-teal-600"
               >
                 <span className="sr-only">Facebook</span>
                 <FacebookLogoIcon size={24} weight="fill" />
-              </a>
+              </Link>
             </li>
             <li>
               <a
