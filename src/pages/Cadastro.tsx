@@ -42,11 +42,24 @@ export function Cadastro() {
       navigate("/login");
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {
-      if (error.response?.status === 400) {
-        setErro("Dados inválidos ou e-mail já cadastrado.");
+      console.error("Erro detalhado do backend:", error.response?.data);
+
+      if (error.response) {
+        // Tenta capturar a mensagem exata de erro que o backend enviou
+        const mensagemBackend =
+          error.response.data.message || error.response.data;
+
+        // Exibe o erro do backend na tela para sabermos o que corrigir
+        if (typeof mensagemBackend === "string") {
+          setErro(`Aviso do servidor: ${mensagemBackend}`);
+        } else if (Array.isArray(mensagemBackend)) {
+          setErro(`Aviso: ${mensagemBackend[0]}`);
+        } else {
+          setErro("Dados inválidos ou e-mail já cadastrado.");
+        }
       } else {
         setErro(
-          "Erro ao cadastrar. Tente novamente ou verifique se o servidor está online.",
+          "Servidor offline. Ele pode estar acordando no Render, tente em 30s.",
         );
       }
     } finally {
